@@ -12,9 +12,6 @@ const dates = [
 ];
 const names = ["Dr Sharafat", "Sarem", "Sajid", "Aneeq", "Waqas", "Aqib", "Illyas", "Zohaib"];
 
-const API_URL = 'https://api.jsonbin.io/v3/b/67890abcdef12345';
-const API_KEY = '$2a$10$abcdefghijklmnopqrstuvwxyz123456789';
-
 const rosterBody = document.getElementById("rosterBody");
 
 dates.forEach((date) => {
@@ -32,7 +29,8 @@ dates.forEach((date) => {
   rosterBody.innerHTML += row;
 });
 
-async function saveToCloud() {
+// Simple shared storage using localStorage with broadcast
+function saveData() {
   const rosterData = [];
   const rows = document.querySelectorAll("#rosterBody tr");
   
@@ -43,38 +41,26 @@ async function saveToCloud() {
     rosterData.push(dayData);
   });
   
-  try {
-    await fetch(API_URL, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': API_KEY
-      },
-      body: JSON.stringify({
-        roster: rosterData,
-        lastUpdated: new Date().toISOString()
-      })
-    });
-  } catch (error) {
-    console.log('Saving locally as fallback');
-    localStorage.setItem('dutyRoster', JSON.stringify(rosterData));
-  }
+  const data = {
+    roster: rosterData,
+    lastUpdated: Date.now()
+  };
+  
+  localStorage.setItem('sharedDutyRoster', JSON.stringify(data));
+  
+  // Broadcast to other tabs/windows
+  window.dispatchEvent(new StorageEvent('storage', {
+    key: 'sharedDutyRoster',
+    newValue: JSON.stringify(data)
+  }));
 }
 
-async function loadFromCloud() {
-  try {
-    const response = await fetch(API_URL, {
-      headers: { 'X-Master-Key': API_KEY }
-    });
-    const data = await response.json();
-    
-    if (data.record && data.record.roster) {
-      applyRosterData(data.record.roster);
-    }
-  } catch (error) {
-    const localData = localStorage.getItem('dutyRoster');
-    if (localData) {
-      applyRosterData(JSON.parse(localData));
+function loadData() {
+  const savedData = localStorage.getItem('sharedDutyRoster');
+  if (savedData) {
+    const data = JSON.parse(savedData);
+    if (data.roster) {
+      applyRosterData(data.roster);
     }
   }
 }
@@ -120,7 +106,7 @@ function handleDutyChange(selectElement) {
   }
 
   selectElement.dataset.previousValue = newValue;
-  saveToCloud();
+  saveData();
 }
 
 function showPasswordModal() {
@@ -162,8 +148,8 @@ function saveRoster() {
   const selects = document.querySelectorAll("#rosterBody select");
   selects.forEach((select) => (select.disabled = true));
 
-  saveToCloud();
-  alert("Roster changes saved and synced!");
+  saveData();
+  alert("Roster changes saved!");
 }
 
 function autoAssignDuties() {
@@ -194,14 +180,21 @@ function autoAssignDuties() {
     });
   });
 
-  saveToCloud();
+  saveData();
   alert("Duties automatically assigned!");
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadFromCloud();
+// Listen for storage changes from other tabs
+window.addEventListener('storage', (e) => {
+  if (e.key === 'sharedDutyRoster' && e.newValue) {
+    const data = JSON.parse(e.newValue);
+    if (data.roster) {
+      applyRosterData(data.roster);
+    }
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadData();
   saveRoster();
-  
-  // Auto-refresh every 30 seconds to sync changes
-  setInterval(loadFromCloud, 30000);
 });
