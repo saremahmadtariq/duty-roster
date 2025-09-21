@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentYear = now.getFullYear();
     const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0');
     let currentPeriod = `${currentYear}-${currentMonth}`;
+    
+    console.log('Current date:', now);
+    console.log('Setting default period to:', currentPeriod);
     let daysInCurrentMonth = 31;
     let dates = [];
     let isEditMode = false;
@@ -24,19 +27,27 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (savedPeriod) {
             currentPeriod = savedPeriod;
-            dutyPeriodInput.value = savedPeriod;
         } else {
-            dutyPeriodInput.value = currentPeriod;
+            // Save current month to localStorage on first visit
+            localStorage.setItem('dutyPeriod', currentPeriod);
         }
         
         if (savedDays) {
             daysInCurrentMonth = parseInt(savedDays);
-            daysInput.value = savedDays;
         } else {
-            daysInput.value = daysInCurrentMonth;
+            // Save current days to localStorage on first visit
+            localStorage.setItem('daysInMonth', daysInCurrentMonth);
         }
         
+        dutyPeriodInput.value = currentPeriod;
+        daysInput.value = daysInCurrentMonth;
+        
         generateDates();
+        
+        // Update title immediately
+        const [year, month] = currentPeriod.split('-');
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        document.querySelector('h1').textContent = `South East Pharmacy Duty Roster - ${monthNames[parseInt(month) - 1]} ${year}`;
     }
     
     function generateDates() {
