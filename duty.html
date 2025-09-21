@@ -4,53 +4,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interactive Duty Roster</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-in-out',
+              'slide-in': 'slideIn 0.3s ease-out',
+              'pulse-red': 'pulseRed 2s infinite'
+            }
+          }
+        }
+      }
+    </script>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <h1>Interactive Duty Roster - October</h1>
+  <body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+      <h1 class="text-4xl font-bold text-center mb-8 animate-fade-in">Interactive Duty Roster</h1>
+      
+      <!-- Time Period Setting -->
+      <div class="bg-gray-800 rounded-lg p-6 mb-6 animate-slide-in">
+        <h2 class="text-xl font-semibold mb-4">Duty Period Settings</h2>
+        <div class="flex flex-wrap gap-4 items-center">
+          <div>
+            <label class="block text-sm font-medium mb-2">Month & Year:</label>
+            <input type="month" id="dutyPeriod" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Days in Month:</label>
+            <input type="number" id="daysInMonth" min="28" max="31" value="31" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white w-20" />
+          </div>
+          <button onclick="updatePeriod()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition-colors duration-200 mt-6">
+            Update Period
+          </button>
+        </div>
+      </div>
 
-    <!-- Control Buttons -->
-    <div class="controls">
-      <button id="editButton" class="save-btn" onclick="showPasswordModal()">
-        Edit Roster
-      </button>
-      <button
-        id="autoButton"
-        class="save-btn"
-        onclick="autoAssignDuties()"
-        style="display: none"
-      >
-        Auto Assign
-      </button>
-      <button
-        id="saveButton"
-        class="save-btn"
-        onclick="saveRoster()"
-        style="display: none"
-      >
-        Save Changes
-      </button>
-    </div>
+      <!-- Control Buttons -->
+      <div class="flex flex-wrap gap-4 justify-center mb-8">
+        <button id="editButton" class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105" onclick="showPasswordModal()">
+          🔐 Edit Roster
+        </button>
+        <button id="autoButton" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 hidden" onclick="autoAssignDuties()">
+          🤖 Auto Assign
+        </button>
+        <button id="saveButton" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 hidden" onclick="saveRoster()">
+          💾 Save Changes
+        </button>
+      </div>
 
-    <!-- Duty Roster Table -->
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Dr Sharafat</th>
-          <th>Sarem</th>
-          <th>Sajid</th>
-          <th>Aneeq</th>
-          <th>Waqas</th>
-          <th>Aqib</th>
-          <th>Illyas</th>
-          <th>Zohaib</th>
-        </tr>
-      </thead>
-      <tbody id="rosterBody">
-        <!-- Rows will be added dynamically -->
-      </tbody>
-    </table>
+      <!-- Duty Roster Table -->
+      <div class="overflow-x-auto bg-gray-800 rounded-lg shadow-2xl animate-fade-in">
+        <table class="w-full">
+          <thead>
+            <tr class="bg-gray-700">
+              <th class="px-4 py-3 text-left font-semibold">Date</th>
+              <th class="px-4 py-3 text-left font-semibold">Dr Sharafat</th>
+              <th class="px-4 py-3 text-left font-semibold">Sarem</th>
+              <th class="px-4 py-3 text-left font-semibold">Sajid</th>
+              <th class="px-4 py-3 text-left font-semibold">Aneeq</th>
+              <th class="px-4 py-3 text-left font-semibold">Waqas</th>
+              <th class="px-4 py-3 text-left font-semibold">Aqib</th>
+              <th class="px-4 py-3 text-left font-semibold">Illyas</th>
+              <th class="px-4 py-3 text-left font-semibold">Zohaib</th>
+            </tr>
+          </thead>
+          <tbody id="rosterBody">
+            <!-- Rows will be added dynamically -->
+          </tbody>
+        </table>
+      </div>
 
     <!-- Firebase CDN -->
     <script type="module">
@@ -78,13 +103,16 @@
     </script>
     <script src="script.js"></script>
 
-    <!-- Password Protection Modal -->
-    <div id="passwordModal" class="modal">
-      <div class="modal-content">
-        <h2>Enter Password</h2>
-        <input type="password" id="passwordInput" placeholder="Password" />
-        <button onclick="verifyPassword()">Submit</button>
-        <p id="passwordError" style="color: red"></p>
+      <!-- Password Protection Modal -->
+      <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 animate-slide-in">
+          <h2 class="text-2xl font-bold mb-6 text-center">🔐 Enter Password</h2>
+          <input type="password" id="passwordInput" placeholder="Password" class="w-full bg-gray-700 border border-gray-600 rounded px-4 py-3 mb-4 text-white" />
+          <button onclick="verifyPassword()" class="w-full bg-green-600 hover:bg-green-700 py-3 rounded font-semibold transition-colors duration-200">
+            Submit
+          </button>
+          <p id="passwordError" class="text-red-400 mt-4 text-center"></p>
+        </div>
       </div>
     </div>
   </body>
