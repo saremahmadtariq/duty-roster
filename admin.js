@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Check if user is logged in
+    if (!sessionStorage.getItem("adminLoggedIn")) {
+        window.location.href = "login.html";
+        return;
+    }
+
     const rosterBody = document.getElementById("rosterBody");
     const overtimeBody = document.getElementById("overtimeBody");
     const saveButton = document.getElementById("saveButton");
@@ -17,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadFromFirebase();
 
     logoutButton.addEventListener("click", () => {
+        sessionStorage.removeItem("adminLoggedIn");
         window.location.href = "index.html";
     });
 
