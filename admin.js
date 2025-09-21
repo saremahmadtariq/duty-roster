@@ -14,27 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "Sun 26/Oct", "Mon 27/Oct", "Tue 28/Oct", "Wed 29/Oct", "Thu 30/Oct", "Fri 31/Oct"
     ];
 
-    // Authentication check
-    window.firebaseOnAuthStateChanged(window.firebaseAuth, (user) => {
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
-            console.log("User is signed in: ", user);
-            loadFromFirebase();
-        } else {
-            // User is signed out
-            window.location.href = "login.html";
-        }
-    });
+    loadFromFirebase();
 
     logoutButton.addEventListener("click", () => {
-        window.firebaseSignOut(window.firebaseAuth).then(() => {
-            // Sign-out successful.
-            window.location.href = "index.html";
-        }).catch((error) => {
-            // An error happened.
-            console.error("Sign out error: ", error);
-        });
+        window.location.href = "index.html";
     });
 
     function renderRoster(rosterData) {
