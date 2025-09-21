@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     const rosterBody = document.getElementById("rosterBody");
-    const names = ["Dr Sharafat", "Sarem", "Sajid", "Aneeq", "Waqas", "Aqib", "Illyas", "Zohaib"];
+    const names = ["Dr S", "Sarem", "Sajid", "Aneeq", "Waqas", "Aqib", "Illyas", "Zohaib"];
     const dutyOptions = ["M", "E", "O", "M/E", "OT", "N"];
-    let currentPeriod = "2024-10";
+    // Set to current month by default
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0');
+    let currentPeriod = `${currentYear}-${currentMonth}`;
     let daysInCurrentMonth = 31;
     let dates = [];
     let isEditMode = false;
@@ -14,8 +18,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const dutyPeriodInput = document.getElementById("dutyPeriod");
         const daysInput = document.getElementById("daysInMonth");
         
-        dutyPeriodInput.value = currentPeriod;
-        daysInput.value = daysInCurrentMonth;
+        // Load saved period from localStorage or use current
+        const savedPeriod = localStorage.getItem('dutyPeriod');
+        const savedDays = localStorage.getItem('daysInMonth');
+        
+        if (savedPeriod) {
+            currentPeriod = savedPeriod;
+            dutyPeriodInput.value = savedPeriod;
+        } else {
+            dutyPeriodInput.value = currentPeriod;
+        }
+        
+        if (savedDays) {
+            daysInCurrentMonth = parseInt(savedDays);
+            daysInput.value = savedDays;
+        } else {
+            daysInput.value = daysInCurrentMonth;
+        }
         
         generateDates();
     }
@@ -30,7 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const date = new Date(year, month - 1, i);
             const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
             const dayName = dayNames[date.getDay()];
-            dates.push(`${dayName} ${i}/${monthName}`);
+            // Shorter format for mobile: just day and date
+            dates.push(`${dayName} ${i}`);
         }
     }
 
@@ -42,7 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Date cell
             const dateCell = document.createElement('td');
-            dateCell.className = 'px-1 md:px-3 py-1 md:py-2 font-medium border-b border-gray-600 text-xs';
+            dateCell.className = 'px-1 md:px-3 py-1 md:py-2 font-medium border-b border-gray-600 text-xs text-center';
+            dateCell.style.textAlign = 'center';
+            dateCell.style.verticalAlign = 'middle';
+            dateCell.style.width = '60px';
+            dateCell.style.maxWidth = '60px';
+            dateCell.style.minWidth = '50px';
             dateCell.textContent = date;
             row.appendChild(dateCell);
             
@@ -50,11 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
             names.forEach((name, nameIndex) => {
                 const duty = rosterData[dateIndex]?.[nameIndex] || "";
                 const cell = document.createElement('td');
-                cell.className = 'px-1 md:px-3 py-1 md:py-2 border-b border-gray-600 table-cell text-xs';
+                cell.className = 'px-1 md:px-3 py-1 md:py-2 border-b border-gray-600 table-cell text-xs text-center';
+                cell.style.textAlign = 'center';
+                cell.style.verticalAlign = 'middle';
                 
                 if (isEditMode) {
                     const select = document.createElement('select');
                     select.className = 'duty-dropdown w-full text-xs bg-gray-700 border border-gray-600 rounded px-1 py-1';
+                    select.style.textAlign = 'center';
                     select.innerHTML = `
                         <option value="">-</option>
                         ${dutyOptions.map(option => 
@@ -125,12 +153,16 @@ document.addEventListener("DOMContentLoaded", () => {
         currentPeriod = dutyPeriodInput.value;
         daysInCurrentMonth = parseInt(daysInput.value);
         
+        // Save to localStorage
+        localStorage.setItem('dutyPeriod', currentPeriod);
+        localStorage.setItem('daysInMonth', daysInCurrentMonth);
+        
         generateDates();
         
         // Update title
         const [year, month] = currentPeriod.split('-');
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        document.querySelector('h1').textContent = `Interactive Duty Roster - ${monthNames[parseInt(month) - 1]} ${year}`;
+        document.querySelector('h1').textContent = `South East Pharmacy Duty Roster - ${monthNames[parseInt(month) - 1]} ${year}`;
         
         loadFromFirebase();
     };
