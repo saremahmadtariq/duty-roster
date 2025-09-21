@@ -120,6 +120,11 @@ th:first-child {
     width: 50px;
     font-size: 9px;
   }
+  
+  /* Dr.Sharafat header mobile styling */
+  .dr-sharafat-header {
+    font-size: 9px !important;
+  }
 }
 
 tr:nth-child(even) {
