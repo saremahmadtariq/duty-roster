@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const rosterBody = document.getElementById("rosterBody");
-    const names = ["Dr S", "Sarem", "Sajid", "Aneeq", "Waqas", "Aqib", "Illyas", "Zohaib"];
+    const names = ["Dr.Sharafat", "Sarem", "Sajid", "Aneeq", "Waqas", "Aqib", "Illyas", "Zohaib"];
     const dutyOptions = ["M", "E", "O", "M/E", "OT", "N"];
     // Set to current month by default
     const now = new Date();
