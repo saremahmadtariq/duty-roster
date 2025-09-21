@@ -54,12 +54,14 @@ function saveToFirebase() {
 function loadFromFirebase() {
   if (!window.firebaseDB) return;
   
+  document.querySelector("h1").textContent = "Loading...";
   const dbRef = window.firebaseRef(window.firebaseDB, 'dutyRoster/october2024');
   window.firebaseOnValue(dbRef, (snapshot) => {
     const data = snapshot.val();
     if (data && data.roster) {
       applyRosterData(data.roster);
     }
+    document.querySelector("h1").textContent = "Interactive Duty Roster - October";
   });
 }
 
@@ -104,7 +106,6 @@ function handleDutyChange(selectElement) {
   }
 
   selectElement.dataset.previousValue = newValue;
-  saveToFirebase();
 }
 
 function showPasswordModal() {
@@ -186,6 +187,5 @@ document.addEventListener("DOMContentLoaded", () => {
   // Wait for Firebase to load
   setTimeout(() => {
     loadFromFirebase();
-    saveRoster();
   }, 1000);
 });
