@@ -1,0 +1,45 @@
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background: #252526;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    text-align: center;
+    color: #569cd6;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #3c3c3c;
+    background: #3c3c3c;
+    color: #cccccc;
+    border-radius: 3px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #0e639c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1177bb;
+}
+
+.error-message {
+    color: #f48771;
+    text-align: center;
+    margin-top: 10px;
+}

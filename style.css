@@ -241,3 +241,7 @@ select:focus {
 #passwordError {
   color: #f48771 !important;
 }
+
+.overtime {
+    background-color: #8B4513; /* SaddleBrown */
+}

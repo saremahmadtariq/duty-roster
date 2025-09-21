@@ -9,27 +9,8 @@
   <body>
     <h1>Interactive Duty Roster - October</h1>
 
-    <!-- Control Buttons -->
     <div class="controls">
-      <button id="editButton" class="save-btn" onclick="showPasswordModal()">
-        Edit Roster
-      </button>
-      <button
-        id="autoButton"
-        class="save-btn"
-        onclick="autoAssignDuties()"
-        style="display: none"
-      >
-        Auto Assign
-      </button>
-      <button
-        id="saveButton"
-        class="save-btn"
-        onclick="saveRoster()"
-        style="display: none"
-      >
-        Save Changes
-      </button>
+        <a href="login.html"><button class="save-btn">Admin Login</button></a>
     </div>
 
     <!-- Duty Roster Table -->
@@ -78,14 +59,6 @@
     </script>
     <script src="script.js"></script>
 
-    <!-- Password Protection Modal -->
-    <div id="passwordModal" class="modal">
-      <div class="modal-content">
-        <h2>Enter Password</h2>
-        <input type="password" id="passwordInput" placeholder="Password" />
-        <button onclick="verifyPassword()">Submit</button>
-        <p id="passwordError" style="color: red"></p>
-      </div>
-    </div>
+    
   </body>
 </html>
