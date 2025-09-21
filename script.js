@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Date cell
             const dateCell = document.createElement('td');
-            dateCell.className = 'px-4 py-3 font-medium border-b border-gray-600';
+            dateCell.className = 'px-1 md:px-3 py-1 md:py-2 font-medium border-b border-gray-600 text-xs';
             dateCell.textContent = date;
             row.appendChild(dateCell);
             
@@ -50,11 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
             names.forEach((name, nameIndex) => {
                 const duty = rosterData[dateIndex]?.[nameIndex] || "";
                 const cell = document.createElement('td');
-                cell.className = 'px-4 py-3 border-b border-gray-600 table-cell';
+                cell.className = 'px-1 md:px-3 py-1 md:py-2 border-b border-gray-600 table-cell text-xs';
                 
                 if (isEditMode) {
                     const select = document.createElement('select');
-                    select.className = 'duty-dropdown w-full';
+                    select.className = 'duty-dropdown w-full text-xs bg-gray-700 border border-gray-600 rounded px-1 py-1';
                     select.innerHTML = `
                         <option value="">-</option>
                         ${dutyOptions.map(option => 
@@ -98,13 +98,22 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const periodKey = currentPeriod.replace('-', '');
         const dbRef = window.firebaseRef(window.firebaseDB, `dutyRoster/${periodKey}`);
+        
+        // Force refresh by adding timestamp
+        const timestamp = Date.now();
+        console.log(`Loading data at ${timestamp}`);
+        
         window.firebaseOnValue(dbRef, (snapshot) => {
             const data = snapshot.val();
+            console.log('Firebase data received:', data);
             if (data && data.roster) {
                 renderRoster(data.roster);
             } else {
                 renderRoster([]);
             }
+        }, {
+            // Force real-time updates
+            includeMetadataChanges: true
         });
     }
     
@@ -167,6 +176,20 @@ document.addEventListener("DOMContentLoaded", () => {
         renderRoster(rosterData);
     };
     
+    window.forceRefresh = function() {
+        console.log('Manual refresh triggered');
+        const refreshBtn = document.getElementById('refreshButton');
+        refreshBtn.textContent = '🔄 Refreshing...';
+        refreshBtn.disabled = true;
+        
+        loadFromFirebase();
+        
+        setTimeout(() => {
+            refreshBtn.textContent = '🔄 Refresh';
+            refreshBtn.disabled = false;
+        }, 2000);
+    };
+    
     window.saveRoster = function() {
         const rosterData = [];
         const rows = rosterBody.querySelectorAll('tr');
@@ -188,29 +211,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const periodKey = currentPeriod.replace('-', '');
         const dbRef = window.firebaseRef(window.firebaseDB, `dutyRoster/${periodKey}`);
-        window.firebaseSet(dbRef, { roster: rosterData, period: currentPeriod, days: daysInCurrentMonth })
+        // Add timestamp to force updates
+        const saveData = { 
+            roster: rosterData, 
+            period: currentPeriod, 
+            days: daysInCurrentMonth,
+            lastUpdated: Date.now(),
+            timestamp: new Date().toISOString()
+        };
+        
+        window.firebaseSet(dbRef, saveData)
             .then(() => {
                 alert('✅ Roster saved successfully!');
+                console.log('Data saved with timestamp:', saveData.timestamp);
                 isEditMode = false;
                 document.getElementById("editButton").classList.remove('hidden');
                 document.getElementById("autoButton").classList.add('hidden');
                 document.getElementById("saveButton").classList.add('hidden');
-                renderRoster(rosterData);
+                
+                // Force reload after save
+                setTimeout(() => {
+                    loadFromFirebase();
+                }, 1000);
             })
             .catch(error => {
                 alert('❌ Error saving roster: ' + error.message);
             });
     };
 
+    // Auto-refresh every 30 seconds to check for updates
+    function setupAutoRefresh() {
+        setInterval(() => {
+            if (!isEditMode) {
+                console.log('Auto-refreshing data...');
+                loadFromFirebase();
+            }
+        }, 30000); // 30 seconds
+    }
+    
     // Wait for Firebase to load
     function waitForFirebase() {
         if (window.firebaseDB) {
             loadFromFirebase();
+            setupAutoRefresh();
         } else {
             setTimeout(waitForFirebase, 100);
         }
     }
     waitForFirebase();
+    
+    // Add visibility change listener to refresh when tab becomes active
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && !isEditMode) {
+            console.log('Tab became visible, refreshing data...');
+            loadFromFirebase();
+        }
+    });
 });
 
 // Close modal when clicking outside

@@ -44,15 +44,14 @@ table {
   margin-top: 20px;
   background: #252526;
   border: 1px solid #3c3c3c;
-  overflow-x: auto;
-  display: block;
-  white-space: nowrap;
+  min-width: 800px;
 }
 
 @media (max-width: 768px) {
   table {
-    font-size: 12px;
+    font-size: 10px;
     margin-top: 10px;
+    min-width: 700px;
   }
 }
 
@@ -60,7 +59,7 @@ tbody,
 thead {
   display: table;
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 thead {
@@ -87,15 +86,17 @@ th {
   border: 1px solid #3c3c3c;
   padding: 8px 4px;
   text-align: center;
-  min-width: 80px;
+  min-width: 70px;
   word-wrap: break-word;
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {
   td,
   th {
-    padding: 6px 2px;
-    min-width: 60px;
+    padding: 4px 2px;
+    min-width: 50px;
+    font-size: 10px;
   }
 }
 
@@ -104,24 +105,24 @@ tr:nth-child(even) {
 }
 
 select {
-  padding: 6px;
+  padding: 4px;
   border-radius: 3px;
   border: 1px solid #3c3c3c;
   background: #374151;
   color: #cccccc;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
   width: 100%;
-  max-width: 80px;
+  max-width: 70px;
   touch-action: manipulation;
   transition: all 0.2s ease-in-out;
 }
 
 @media (max-width: 768px) {
   select {
-    font-size: 11px;
-    padding: 4px;
-    max-width: 60px;
+    font-size: 9px;
+    padding: 2px;
+    max-width: 45px;
   }
 }
 
