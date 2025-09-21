@@ -170,18 +170,22 @@ document.addEventListener("DOMContentLoaded", () => {
     window.saveRoster = function() {
         const rosterData = [];
         const rows = rosterBody.querySelectorAll('tr');
-        
+
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
             const dayData = [];
-            
+
             for (let i = 1; i < cells.length; i++) {
                 const select = cells[i].querySelector('select');
-                dayData.push(select ? select.value : '');
+                if (select) {
+                    dayData.push(select.value);
+                } else {
+                    dayData.push(cells[i].textContent);
+                }
             }
             rosterData.push(dayData);
         });
-        
+
         const periodKey = currentPeriod.replace('-', '');
         const dbRef = window.firebaseRef(window.firebaseDB, `dutyRoster/${periodKey}`);
         window.firebaseSet(dbRef, { roster: rosterData, period: currentPeriod, days: daysInCurrentMonth })
@@ -191,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("editButton").classList.remove('hidden');
                 document.getElementById("autoButton").classList.add('hidden');
                 document.getElementById("saveButton").classList.add('hidden');
-                loadFromFirebase();
+                renderRoster(rosterData);
             })
             .catch(error => {
                 alert('❌ Error saving roster: ' + error.message);
