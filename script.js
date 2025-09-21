@@ -91,6 +91,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function loadFromFirebase() {
+        if (!window.firebaseDB) {
+            setTimeout(loadFromFirebase, 500);
+            return;
+        }
+        
         const periodKey = currentPeriod.replace('-', '');
         const dbRef = window.firebaseRef(window.firebaseDB, `dutyRoster/${periodKey}`);
         window.firebaseOnValue(dbRef, (snapshot) => {
@@ -139,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("editButton").classList.add('hidden');
             document.getElementById("autoButton").classList.remove('hidden');
             document.getElementById("saveButton").classList.remove('hidden');
-            renderRoster([]);
+            loadFromFirebase(); // Load existing data instead of clearing
             errorElement.textContent = "";
         } else {
             errorElement.textContent = "Incorrect password!";
@@ -194,9 +199,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Wait for Firebase to load
-    setTimeout(() => {
-        loadFromFirebase();
-    }, 1000);
+    function waitForFirebase() {
+        if (window.firebaseDB) {
+            loadFromFirebase();
+        } else {
+            setTimeout(waitForFirebase, 100);
+        }
+    }
+    waitForFirebase();
 });
 
 // Close modal when clicking outside
