@@ -28,7 +28,7 @@ A responsive web application for managing duty assignments with password protect
 
 ## Staff Members
 
-- Dr Sharafat
+- DR.Sharafat
 - Sarem
 - Sajid
 - Aneeq
