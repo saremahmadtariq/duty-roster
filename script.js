@@ -29,8 +29,9 @@ dates.forEach((date) => {
   rosterBody.innerHTML += row;
 });
 
-// Simple shared storage using localStorage with broadcast
-function saveData() {
+function saveToFirebase() {
+  if (!window.firebaseDB) return;
+  
   const rosterData = [];
   const rows = document.querySelectorAll("#rosterBody tr");
   
@@ -43,26 +44,23 @@ function saveData() {
   
   const data = {
     roster: rosterData,
-    lastUpdated: Date.now()
+    lastUpdated: new Date().toISOString()
   };
   
-  localStorage.setItem('sharedDutyRoster', JSON.stringify(data));
-  
-  // Broadcast to other tabs/windows
-  window.dispatchEvent(new StorageEvent('storage', {
-    key: 'sharedDutyRoster',
-    newValue: JSON.stringify(data)
-  }));
+  const dbRef = window.firebaseRef(window.firebaseDB, 'dutyRoster/october2024');
+  window.firebaseSet(dbRef, data);
 }
 
-function loadData() {
-  const savedData = localStorage.getItem('sharedDutyRoster');
-  if (savedData) {
-    const data = JSON.parse(savedData);
-    if (data.roster) {
+function loadFromFirebase() {
+  if (!window.firebaseDB) return;
+  
+  const dbRef = window.firebaseRef(window.firebaseDB, 'dutyRoster/october2024');
+  window.firebaseOnValue(dbRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data && data.roster) {
       applyRosterData(data.roster);
     }
-  }
+  });
 }
 
 function applyRosterData(rosterData) {
@@ -106,7 +104,7 @@ function handleDutyChange(selectElement) {
   }
 
   selectElement.dataset.previousValue = newValue;
-  saveData();
+  saveToFirebase();
 }
 
 function showPasswordModal() {
@@ -148,8 +146,8 @@ function saveRoster() {
   const selects = document.querySelectorAll("#rosterBody select");
   selects.forEach((select) => (select.disabled = true));
 
-  saveData();
-  alert("Roster changes saved!");
+  saveToFirebase();
+  alert("Roster changes saved and synced!");
 }
 
 function autoAssignDuties() {
@@ -180,21 +178,14 @@ function autoAssignDuties() {
     });
   });
 
-  saveData();
+  saveToFirebase();
   alert("Duties automatically assigned!");
 }
 
-// Listen for storage changes from other tabs
-window.addEventListener('storage', (e) => {
-  if (e.key === 'sharedDutyRoster' && e.newValue) {
-    const data = JSON.parse(e.newValue);
-    if (data.roster) {
-      applyRosterData(data.roster);
-    }
-  }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
-  loadData();
-  saveRoster();
+  // Wait for Firebase to load
+  setTimeout(() => {
+    loadFromFirebase();
+    saveRoster();
+  }, 1000);
 });
