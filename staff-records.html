@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Records - South East Pharmacy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold">👥 Staff Records</h1>
+        <div class="flex gap-4">
+          <button
+            onclick="showAddStaffModal()"
+            class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition-colors"
+          >
+            + Add Staff
+          </button>
+          <a
+            href="home.html"
+            class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors"
+            >← Back</a
+          >
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <input
+          type="text"
+          id="searchStaff"
+          placeholder="Search staff members..."
+          class="w-full bg-gray-700 border border-gray-600 rounded px-4 py-2 text-white"
+          onkeyup="filterStaff()"
+        />
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-gray-800 rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-600 p-3 rounded-full mr-4">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Dr. Sharafat</h3>
+              <p class="text-gray-400">Chief Pharmacist</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-gray-400">ID:</span> EMP001</p>
+            <p><span class="text-gray-400">Department:</span> Pharmacy</p>
+            <p>
+              <span class="text-gray-400">Status:</span>
+              <span class="text-green-400">Active</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <div class="bg-green-600 p-3 rounded-full mr-4">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Sarem</h3>
+              <p class="text-gray-400">Pharmacist</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-gray-400">ID:</span> EMP002</p>
+            <p><span class="text-gray-400">Department:</span> Pharmacy</p>
+            <p>
+              <span class="text-gray-400">Status:</span>
+              <span class="text-green-400">Active</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <div class="bg-purple-600 p-3 rounded-full mr-4">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Sajid</h3>
+              <p class="text-gray-400">Pharmacist</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-gray-400">ID:</span> EMP003</p>
+            <p><span class="text-gray-400">Department:</span> Pharmacy</p>
+            <p>
+              <span class="text-gray-400">Status:</span>
+              <span class="text-green-400">Active</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <div class="bg-red-600 p-3 rounded-full mr-4">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Aneeq</h3>
+              <p class="text-gray-400">Pharmacist</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-gray-400">ID:</span> EMP004</p>
+            <p><span class="text-gray-400">Department:</span> Pharmacy</p>
+            <p>
+              <span class="text-gray-400">Status:</span>
+              <span class="text-green-400">Active</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <div class="bg-yellow-600 p-3 rounded-full mr-4">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Waqas</h3>
+              <p class="text-gray-400">Pharmacist</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-gray-400">ID:</span> EMP005</p>
+            <p><span class="text-gray-400">Department:</span> Pharmacy</p>
+            <p>
+              <span class="text-gray-400">Status:</span>
+              <span class="text-green-400">Active</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <div class="bg-indigo-600 p-3 rounded-full mr-4">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Aqib</h3>
+              <p class="text-gray-400">Pharmacist</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-gray-400">ID:</span> EMP006</p>
+            <p><span class="text-gray-400">Department:</span> Pharmacy</p>
+            <p>
+              <span class="text-gray-400">Status:</span>
+              <span class="text-green-400">Active</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <div class="bg-pink-600 p-3 rounded-full mr-4">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Illyas</h3>
+              <p class="text-gray-400">Pharmacist</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-gray-400">ID:</span> EMP007</p>
+            <p><span class="text-gray-400">Department:</span> Pharmacy</p>
+            <p>
+              <span class="text-gray-400">Status:</span>
+              <span class="text-green-400">Active</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <div class="bg-teal-600 p-3 rounded-full mr-4">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Zohaib</h3>
+              <p class="text-gray-400">Pharmacist</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-gray-400">ID:</span> EMP008</p>
+            <p><span class="text-gray-400">Department:</span> Pharmacy</p>
+            <p>
+              <span class="text-gray-400">Status:</span>
+              <span class="text-green-400">Active</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add/Edit Staff Modal -->
+      <div
+        id="staffModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+      >
+        <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold" id="modalTitle">Add New Staff</h2>
+            <button
+              onclick="closeStaffModal()"
+              class="text-gray-400 hover:text-white text-2xl"
+            >
+              &times;
+            </button>
+          </div>
+
+          <form id="staffForm" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">Full Name:</label>
+              <input
+                type="text"
+                id="staffName"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Employee ID:</label>
+              <input
+                type="text"
+                id="staffId"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Position:</label>
+              <select
+                id="staffPosition"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              >
+                <option value="Pharmacist">Pharmacist</option>
+                <option value="Chief Pharmacist">Chief Pharmacist</option>
+                <option value="Assistant">Assistant</option>
+                <option value="Technician">Technician</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Department:</label>
+              <input
+                type="text"
+                id="staffDepartment"
+                value="Pharmacy"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Phone:</label>
+              <input
+                type="tel"
+                id="staffPhone"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Email:</label>
+              <input
+                type="email"
+                id="staffEmail"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Status:</label>
+              <select
+                id="staffStatus"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              >
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="On Leave">On Leave</option>
+              </select>
+            </div>
+            <div class="flex gap-4">
+              <button
+                type="submit"
+                class="flex-1 bg-green-600 hover:bg-green-700 py-3 rounded font-semibold transition-colors"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                onclick="closeStaffModal()"
+                class="flex-1 bg-gray-600 hover:bg-gray-700 py-3 rounded font-semibold transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let staffData = [
+        {
+          id: "EMP001",
+          name: "Dr. Sharafat",
+          position: "Chief Pharmacist",
+          department: "Pharmacy",
+          phone: "+92-300-1234567",
+          email: "sharafat@sep.com",
+          status: "Active",
+        },
+        {
+          id: "EMP002",
+          name: "Sarem",
+          position: "Pharmacist",
+          department: "Pharmacy",
+          phone: "+92-300-2345678",
+          email: "sarem@sep.com",
+          status: "Active",
+        },
+        {
+          id: "EMP003",
+          name: "Sajid",
+          position: "Pharmacist",
+          department: "Pharmacy",
+          phone: "+92-300-3456789",
+          email: "sajid@sep.com",
+          status: "Active",
+        },
+        {
+          id: "EMP004",
+          name: "Aneeq",
+          position: "Pharmacist",
+          department: "Pharmacy",
+          phone: "+92-300-4567890",
+          email: "aneeq@sep.com",
+          status: "Active",
+        },
+        {
+          id: "EMP005",
+          name: "Waqas",
+          position: "Pharmacist",
+          department: "Pharmacy",
+          phone: "+92-300-5678901",
+          email: "waqas@sep.com",
+          status: "Active",
+        },
+        {
+          id: "EMP006",
+          name: "Aqib",
+          position: "Pharmacist",
+          department: "Pharmacy",
+          phone: "+92-300-6789012",
+          email: "aqib@sep.com",
+          status: "Active",
+        },
+        {
+          id: "EMP007",
+          name: "Illyas",
+          position: "Pharmacist",
+          department: "Pharmacy",
+          phone: "+92-300-7890123",
+          email: "illyas@sep.com",
+          status: "Active",
+        },
+        {
+          id: "EMP008",
+          name: "Zohaib",
+          position: "Pharmacist",
+          department: "Pharmacy",
+          phone: "+92-300-8901234",
+          email: "zohaib@sep.com",
+          status: "Active",
+        },
+      ];
+
+      let editingIndex = -1;
+      const colors = [
+        "bg-blue-600",
+        "bg-green-600",
+        "bg-purple-600",
+        "bg-red-600",
+        "bg-yellow-600",
+        "bg-indigo-600",
+        "bg-pink-600",
+        "bg-teal-600",
+      ];
+
+      function renderStaff() {
+        const container = document.querySelector(".grid");
+        container.innerHTML = "";
+
+        staffData.forEach((staff, index) => {
+          const statusColor =
+            staff.status === "Active"
+              ? "text-green-400"
+              : staff.status === "On Leave"
+              ? "text-yellow-400"
+              : "text-red-400";
+          const cardColor = colors[index % colors.length];
+
+          const card = document.createElement("div");
+          card.className = "bg-gray-800 rounded-lg p-6";
+          card.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="${cardColor} p-3 rounded-full mr-4">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold">${staff.name}</h3>
+                            <p class="text-gray-400">${staff.position}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="editStaff(${index})" class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-sm">Edit</button>
+                            <button onclick="deleteStaff(${index})" class="bg-red-600 hover:bg-red-700 px-2 py-1 rounded text-sm">Delete</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <p><span class="text-gray-400">ID:</span> ${staff.id}</p>
+                        <p><span class="text-gray-400">Department:</span> ${staff.department}</p>
+                        <p><span class="text-gray-400">Phone:</span> ${staff.phone}</p>
+                        <p><span class="text-gray-400">Email:</span> ${staff.email}</p>
+                        <p><span class="text-gray-400">Status:</span> <span class="${statusColor}">${staff.status}</span></p>
+                    </div>
+                `;
+          container.appendChild(card);
+        });
+      }
+
+      function showAddStaffModal() {
+        editingIndex = -1;
+        document.getElementById("modalTitle").textContent = "Add New Staff";
+        document.getElementById("staffForm").reset();
+        document.getElementById("staffDepartment").value = "Pharmacy";
+        document.getElementById("staffModal").classList.remove("hidden");
+        document.getElementById("staffModal").classList.add("flex");
+      }
+
+      function editStaff(index) {
+        editingIndex = index;
+        const staff = staffData[index];
+        document.getElementById("modalTitle").textContent = "Edit Staff";
+        document.getElementById("staffName").value = staff.name;
+        document.getElementById("staffId").value = staff.id;
+        document.getElementById("staffPosition").value = staff.position;
+        document.getElementById("staffDepartment").value = staff.department;
+        document.getElementById("staffPhone").value = staff.phone;
+        document.getElementById("staffEmail").value = staff.email;
+        document.getElementById("staffStatus").value = staff.status;
+        document.getElementById("staffModal").classList.remove("hidden");
+        document.getElementById("staffModal").classList.add("flex");
+      }
+
+      function deleteStaff(index) {
+        if (confirm("Are you sure you want to delete this staff member?")) {
+          staffData.splice(index, 1);
+          saveStaffData();
+          renderStaff();
+          alert("Staff deleted! Reload the duty roster page to see changes.");
+        }
+      }
+
+      function closeStaffModal() {
+        document.getElementById("staffModal").classList.add("hidden");
+        document.getElementById("staffModal").classList.remove("flex");
+      }
+
+      function saveStaffData() {
+        localStorage.setItem("staffData", JSON.stringify(staffData));
+        updateDutyRosterStaff();
+      }
+
+      function updateDutyRosterStaff() {
+        const activeStaff = staffData
+          .filter((staff) => staff.status === "Active")
+          .map((staff) => staff.name);
+        localStorage.setItem("dutyRosterStaff", JSON.stringify(activeStaff));
+      }
+
+      function loadStaffData() {
+        const saved = localStorage.getItem("staffData");
+        if (saved) {
+          staffData = JSON.parse(saved);
+        }
+      }
+
+      function filterStaff() {
+        const search = document
+          .getElementById("searchStaff")
+          .value.toLowerCase();
+        const cards = document.querySelectorAll(".grid > div");
+
+        cards.forEach((card) => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(search) ? "block" : "none";
+        });
+      }
+
+      document
+        .getElementById("staffForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const staff = {
+            id: document.getElementById("staffId").value,
+            name: document.getElementById("staffName").value,
+            position: document.getElementById("staffPosition").value,
+            department: document.getElementById("staffDepartment").value,
+            phone: document.getElementById("staffPhone").value,
+            email: document.getElementById("staffEmail").value,
+            status: document.getElementById("staffStatus").value,
+          };
+
+          if (editingIndex >= 0) {
+            staffData[editingIndex] = staff;
+          } else {
+            staffData.push(staff);
+          }
+
+          saveStaffData();
+          renderStaff();
+          closeStaffModal();
+          alert("Staff updated! The duty roster will now include this member.");
+        });
+
+      // Initialize
+      loadStaffData();
+      renderStaff();
+    </script>
+  </body>
+</html>
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeStaffModal();
+            }
+            if (event.key === 'Enter' && document.getElementById('staffModal').classList.contains('flex')) {
+                document.getElementById('staffForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
+    
+    <!-- Firebase CDN -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAaYNnSVowKDIzAdqfMXC9sGyj2pGRd2Nc",
+        authDomain: "duty-roster-baa33.firebaseapp.com",
+        databaseURL: "https://duty-roster-baa33-default-rtdb.firebaseio.com",
+        projectId: "duty-roster-baa33",
+        storageBucket: "duty-roster-baa33.firebasestorage.app",
+        messagingSenderId: "439210662019",
+        appId: "1:439210662019:web:6bfb2e6daf14527355a3b6",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      // Make Firebase available globally
+      window.firebaseDB = database;
+      window.firebaseRef = ref;
+      window.firebaseSet = set;
+      window.firebaseOnValue = onValue;
+    </script>

@@ -26,16 +26,30 @@
     </script>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body class="bg-gray-900 text-white min-h-screen">
-    <div class="container mx-auto px-2 md:px-4 py-4 md:py-8">
-      <h1
-        class="text-2xl md:text-4xl font-bold text-center mb-8 animate-fade-in"
-      >
-        South East Pharmacy Duty Roster
-      </h1>
+  <body class="bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white min-h-screen">
+    <div class="container mx-auto px-4 md:px-6 py-6 md:py-10">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-xl mb-4">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM19 19H5V8h14v11zM7 10h5v5H7z"/>
+          </svg>
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          South East Pharmacy Duty Roster
+        </h1>
+        <p class="text-gray-400 text-lg">Professional Staff Scheduling & Management System</p>
+        <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
+        <div class="mt-6 text-sm text-gray-500">
+          <span class="inline-flex items-center space-x-1 mr-4"><kbd class="px-2 py-1 bg-white/10 rounded text-xs">ESC</kbd><span>Close</span></span>
+          <span class="inline-flex items-center space-x-1 mr-4"><kbd class="px-2 py-1 bg-white/10 rounded text-xs">Ctrl+E</kbd><span>Edit</span></span>
+          <span class="inline-flex items-center space-x-1 mr-4"><kbd class="px-2 py-1 bg-white/10 rounded text-xs">Ctrl+S</kbd><span>Save</span></span>
+          <span class="inline-flex items-center space-x-1"><kbd class="px-2 py-1 bg-white/10 rounded text-xs">Ctrl+R</kbd><span>Refresh</span></span>
+        </div>
+      </div>
 
       <!-- Time Period Setting -->
-      <div class="bg-gray-800 rounded-lg p-6 mb-6 animate-slide-in">
+      <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-8 animate-slide-in">
         <h2 class="text-xl font-semibold mb-4">Duty Period Settings</h2>
         <div class="flex flex-wrap gap-4 items-center">
           <div>
@@ -67,90 +81,77 @@
       </div>
 
       <!-- Control Buttons -->
-      <div class="flex flex-wrap gap-4 justify-center mb-8">
+      <div class="flex flex-wrap gap-4 justify-center mb-10">
         <button
           id="refreshButton"
-          class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-semibold transition-all duration-200"
+          class="bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 px-6 py-3 rounded-xl font-semibold transition-all duration-200 backdrop-blur-sm"
           onclick="forceRefresh()"
         >
           🔄 Refresh
         </button>
         <button
           id="editButton"
-          class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
+          class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 px-8 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
           onclick="showPasswordModal()"
         >
           🔐 Edit Roster
         </button>
+
+        <button
+          id="colorButton"
+          class="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-500 hover:to-pink-600 px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hidden"
+          onclick="showColorModal()"
+        >
+          🎨 Colors
+        </button>
         <button
           id="autoButton"
-          class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 hidden"
+          class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hidden"
           onclick="autoAssignDuties()"
         >
           🤖 Auto Assign
         </button>
         <button
           id="saveButton"
-          class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 hidden"
+          class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 px-8 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hidden"
           onclick="saveRoster()"
         >
           💾 Save Changes
         </button>
       </div>
 
-      <!-- Duty Roster Table -->
+      <!-- Overtime Alert Table -->
       <div
-        class="overflow-x-auto bg-gray-800 rounded-lg shadow-2xl animate-fade-in"
-        style="-webkit-overflow-scrolling: touch"
+        id="overtimeAlert"
+        class="bg-red-900 border border-red-600 rounded-lg p-4 mb-6 hidden"
       >
-        <table class="w-full" style="min-width: 700px">
+        <h3 class="text-lg font-bold text-red-200 mb-4">
+          ⚠️ Overtime Alert - Duties Exceeding 10 Hours
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-red-800">
+                <th class="px-3 py-2 text-left">Date</th>
+                <th class="px-3 py-2 text-left">Staff</th>
+                <th class="px-3 py-2 text-left">Duty</th>
+                <th class="px-3 py-2 text-left">Hours</th>
+                <th class="px-3 py-2 text-left">Overtime</th>
+              </tr>
+            </thead>
+            <tbody id="overtimeTableBody">
+              <!-- Overtime entries will be populated here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Duty Roster Table -->
+      <div class="overflow-x-auto bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-2xl animate-fade-in" style="-webkit-overflow-scrolling: touch">
+        <table class="w-full border-separate border-spacing-0" style="min-width: 700px">
           <thead>
-            <tr class="bg-gray-700">
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs"
-              >
-                Date
-              </th>
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs dr-sharafat-header"
-              >
-                Dr.Sharafat
-              </th>
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs"
-              >
-                Sarem
-              </th>
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs"
-              >
-                Sajid
-              </th>
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs"
-              >
-                Aneeq
-              </th>
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs"
-              >
-                Waqas
-              </th>
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs"
-              >
-                Aqib
-              </th>
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs"
-              >
-                Illyas
-              </th>
-              <th
-                class="px-1 md:px-3 py-1 md:py-2 text-center font-semibold text-xs"
-              >
-                Zohaib
-              </th>
+            <tr class="bg-gray-700" id="tableHeader">
+              <!-- Headers will be generated dynamically -->
             </tr>
           </thead>
           <tbody id="rosterBody">
@@ -214,6 +215,538 @@
           <p id="passwordError" class="text-red-400 mt-4 text-center"></p>
         </div>
       </div>
+
+      <!-- Time Period Assignment Modal -->
+      <div
+        id="timePeriodModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+      >
+        <div class="bg-gray-800 rounded-lg p-8 max-w-4xl w-full mx-4 animate-slide-in modal-content">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">⏰ Duty Time Period Assignment</h2>
+            <button
+              onclick="closeTimePeriodModal()"
+              class="text-gray-400 hover:text-white text-2xl"
+            >
+              &times;
+            </button>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Define Time Periods</h3>
+              <div class="space-y-4">
+                <div class="bg-gray-700 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-medium">Morning (M)</span>
+                    <button
+                      onclick="editTimePeriod('M')"
+                      class="text-blue-400 hover:text-blue-300"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  <div class="text-sm text-gray-300" id="morning-time">
+                    06:00 - 14:00
+                  </div>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-medium">Evening (E)</span>
+                    <button
+                      onclick="editTimePeriod('E')"
+                      class="text-blue-400 hover:text-blue-300"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  <div class="text-sm text-gray-300" id="evening-time">
+                    14:00 - 22:00
+                  </div>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-medium">Night (N)</span>
+                    <button
+                      onclick="editTimePeriod('N')"
+                      class="text-blue-400 hover:text-blue-300"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  <div class="text-sm text-gray-300" id="night-time">
+                    22:00 - 06:00
+                  </div>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-medium">Morning/Evening (M/E)</span>
+                    <button
+                      onclick="editTimePeriod('ME')"
+                      class="text-blue-400 hover:text-blue-300"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  <div class="text-sm text-gray-300" id="me-time">
+                    06:00 - 22:00
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Quick Assignment</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >Select Date Range:</label
+                  >
+                  <div class="flex gap-2">
+                    <input
+                      type="date"
+                      id="assignStartDate"
+                      class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                    />
+                    <input
+                      type="date"
+                      id="assignEndDate"
+                      class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >Select Staff:</label
+                  >
+                  <select
+                    id="assignStaff"
+                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                  >
+                    <option value="">Select Staff Member</option>
+                    <option value="Dr.Sharafat">Dr. Sharafat</option>
+                    <option value="Sarem">Sarem</option>
+                    <option value="Sajid">Sajid</option>
+                    <option value="Aneeq">Aneeq</option>
+                    <option value="Waqas">Waqas</option>
+                    <option value="Aqib">Aqib</option>
+                    <option value="Illyas">Illyas</option>
+                    <option value="Zohaib">Zohaib</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >Assign Time Period:</label
+                  >
+                  <select
+                    id="assignPeriod"
+                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                  >
+                    <option value="M">Morning (M) - 06:00-14:00</option>
+                    <option value="E">Evening (E) - 14:00-22:00</option>
+                    <option value="N">Night (N) - 22:00-06:00</option>
+                    <option value="M/E">
+                      Morning/Evening (M/E) - 06:00-22:00
+                    </option>
+                    <option value="O">Off (O)</option>
+                    <option value="OT">Operation Theater (OT)</option>
+                  </select>
+                </div>
+                <button
+                  onclick="assignTimePeriod()"
+                  class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded font-semibold transition-colors"
+                >
+                  Assign Period
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-600 pt-6">
+            <h3 class="text-lg font-semibold mb-4">Bulk Assignment Patterns</h3>
+            <div class="grid md:grid-cols-3 gap-4">
+              <button
+                onclick="applyRotationPattern()"
+                class="bg-purple-600 hover:bg-purple-700 py-3 rounded font-semibold transition-colors"
+              >
+                Apply Rotation Pattern
+              </button>
+              <button
+                onclick="applyWeekendPattern()"
+                class="bg-green-600 hover:bg-green-700 py-3 rounded font-semibold transition-colors"
+              >
+                Weekend Pattern
+              </button>
+              <button
+                onclick="clearAllAssignments()"
+                class="bg-red-600 hover:bg-red-700 py-3 rounded font-semibold transition-colors"
+              >
+                Clear All
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Period Edit Modal -->
+      <div
+        id="timeEditModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+      >
+        <div
+          class="bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 animate-slide-in"
+        >
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Edit Time Period</h2>
+            <button
+              onclick="closeTimeEditModal()"
+              class="text-gray-400 hover:text-white text-2xl"
+            >
+              &times;
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">Period Name:</label>
+              <input
+                type="text"
+                id="editPeriodName"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                readonly
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Start Time:</label>
+              <input
+                type="time"
+                id="editStartTime"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">End Time:</label>
+              <input
+                type="time"
+                id="editEndTime"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div class="flex gap-4">
+              <button
+                onclick="saveTimePeriod()"
+                class="flex-1 bg-green-600 hover:bg-green-700 py-3 rounded font-semibold transition-colors"
+              >
+                Save
+              </button>
+              <button
+                onclick="closeTimeEditModal()"
+                class="flex-1 bg-gray-600 hover:bg-gray-700 py-3 rounded font-semibold transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Individual Time Edit Modal -->
+      <div
+        id="individualTimeModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+      >
+        <div
+          class="bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 animate-slide-in"
+        >
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Edit Individual Time Period</h2>
+            <button
+              onclick="closeIndividualTimeModal()"
+              class="text-gray-400 hover:text-white text-2xl"
+            >
+              &times;
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">Date:</label>
+              <input
+                type="text"
+                id="editIndividualDate"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                readonly
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Staff:</label>
+              <input
+                type="text"
+                id="editIndividualStaff"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                readonly
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Duty:</label>
+              <input
+                type="text"
+                id="editIndividualDuty"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                readonly
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Start Time:</label>
+              <input
+                type="time"
+                id="editIndividualStartTime"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">End Time:</label>
+              <input
+                type="time"
+                id="editIndividualEndTime"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div class="text-sm text-gray-300">
+              <span>Total Hours: </span><span id="individualTotalHours">0</span>
+            </div>
+            <div class="flex gap-4">
+              <button
+                onclick="saveIndividualTime()"
+                class="flex-1 bg-green-600 hover:bg-green-700 py-3 rounded font-semibold transition-colors"
+              >
+                Save
+              </button>
+              <button
+                onclick="closeIndividualTimeModal()"
+                class="flex-1 bg-gray-600 hover:bg-gray-700 py-3 rounded font-semibold transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Customization Modal -->
+      <div
+        id="colorModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+      >
+        <div class="bg-gray-800 rounded-lg p-8 max-w-2xl w-full mx-4 animate-slide-in modal-content">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">🎨 Customize Duty Colors</h2>
+            <button
+              onclick="closeColorModal()"
+              class="text-gray-400 hover:text-white text-2xl"
+            >
+              &times;
+            </button>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Time Display Style Options -->
+            <div class="border-b border-gray-600 pb-6">
+              <h3 class="text-lg font-semibold mb-4">⏰ Time Display Style</h3>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >Time Box Background:</label
+                  >
+                  <div class="flex gap-2">
+                    <input
+                      type="color"
+                      id="timeBoxBg"
+                      value="#374151"
+                      class="flex-1 h-10 rounded cursor-pointer"
+                    />
+                    <button
+                      type="button"
+                      onclick="setTransparentBackground()"
+                      class="px-3 py-2 bg-gray-600 hover:bg-gray-500 rounded text-sm"
+                    >
+                      None
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >Time Text Color:</label
+                  >
+                  <input
+                    type="color"
+                    id="timeTextColor"
+                    value="#ffffff"
+                    class="w-full h-10 rounded cursor-pointer"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >Font Size:</label
+                  >
+                  <select
+                    id="timeFontSize"
+                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                  >
+                    <option value="10px">Small (10px)</option>
+                    <option value="12px" selected>Medium (12px)</option>
+                    <option value="14px">Large (14px)</option>
+                    <option value="16px">Extra Large (16px)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >Font Weight:</label
+                  >
+                  <select
+                    id="timeFontWeight"
+                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                  >
+                    <option value="normal">Normal</option>
+                    <option value="bold" selected>Bold</option>
+                    <option value="lighter">Light</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Duty Cell Colors -->
+            <div>
+              <h3 class="text-lg font-semibold mb-4">🎨 Duty Cell Colors</h3>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div
+                    class="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
+                  >
+                    <div>
+                      <span class="font-medium">Morning (M)</span>
+                      <div class="text-sm text-gray-300">
+                        06:00 AM - 02:00 PM
+                      </div>
+                    </div>
+                    <input
+                      type="color"
+                      id="colorM"
+                      value="#6ee7b7"
+                      class="w-12 h-8 rounded cursor-pointer"
+                    />
+                  </div>
+
+                  <div
+                    class="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
+                  >
+                    <div>
+                      <span class="font-medium">Evening (E)</span>
+                      <div class="text-sm text-gray-300">
+                        02:00 PM - 10:00 PM
+                      </div>
+                    </div>
+                    <input
+                      type="color"
+                      id="colorE"
+                      value="#93c5fd"
+                      class="w-12 h-8 rounded cursor-pointer"
+                    />
+                  </div>
+
+                  <div
+                    class="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
+                  >
+                    <div>
+                      <span class="font-medium">Night (N)</span>
+                      <div class="text-sm text-gray-300">
+                        10:00 PM - 06:00 AM
+                      </div>
+                    </div>
+                    <input
+                      type="color"
+                      id="colorN"
+                      value="#a5b4fc"
+                      class="w-12 h-8 rounded cursor-pointer"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <div
+                    class="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
+                  >
+                    <div>
+                      <span class="font-medium">Morning/Evening (M/E)</span>
+                      <div class="text-sm text-gray-300">
+                        06:00 AM - 10:00 PM
+                      </div>
+                    </div>
+                    <input
+                      type="color"
+                      id="colorME"
+                      value="#fcd34d"
+                      class="w-12 h-8 rounded cursor-pointer"
+                    />
+                  </div>
+
+                  <div
+                    class="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
+                  >
+                    <div>
+                      <span class="font-medium">Off (O)</span>
+                      <div class="text-sm text-gray-300">No duty</div>
+                    </div>
+                    <input
+                      type="color"
+                      id="colorO"
+                      value="#fca5a5"
+                      class="w-12 h-8 rounded cursor-pointer"
+                    />
+                  </div>
+
+                  <div
+                    class="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
+                  >
+                    <div>
+                      <span class="font-medium">Operation Theater (OT)</span>
+                      <div class="text-sm text-gray-300">Variable hours</div>
+                    </div>
+                    <input
+                      type="color"
+                      id="colorOT"
+                      value="#d97706"
+                      class="w-12 h-8 rounded cursor-pointer"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex gap-4">
+            <button
+              onclick="saveColors()"
+              class="flex-1 bg-green-600 hover:bg-green-700 py-3 rounded font-semibold transition-colors"
+            >
+              Save Colors
+            </button>
+            <button
+              onclick="resetColors()"
+              class="flex-1 bg-yellow-600 hover:bg-yellow-700 py-3 rounded font-semibold transition-colors"
+            >
+              Reset to Default
+            </button>
+            <button
+              onclick="closeColorModal()"
+              class="flex-1 bg-gray-600 hover:bg-gray-700 py-3 rounded font-semibold transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">

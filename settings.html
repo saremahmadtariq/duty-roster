@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - South East Pharmacy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold">⚙️ Settings</h1>
+        <a
+          href="home.html"
+          class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors"
+          >← Back</a
+        >
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-bold mb-4">System Settings</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2"
+                >Pharmacy Name:</label
+              >
+              <input
+                type="text"
+                value="South East Pharmacy"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2"
+                >Default Shift Hours:</label
+              >
+              <select
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+              >
+                <option>8 Hours</option>
+                <option>12 Hours</option>
+                <option>24 Hours</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Time Zone:</label>
+              <select
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+              >
+                <option>UTC+5 (Pakistan)</option>
+                <option>UTC+0 (GMT)</option>
+                <option>UTC-5 (EST)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-bold mb-4">Security Settings</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2"
+                >Admin Password:</label
+              >
+              <input
+                type="password"
+                placeholder="Current: Nokia108"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2"
+                >New Password:</label
+              >
+              <input
+                type="password"
+                placeholder="Enter new password"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2"
+                >Confirm Password:</label
+              >
+              <input
+                type="password"
+                placeholder="Confirm new password"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-bold mb-4">Notification Settings</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span>Email Notifications</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked />
+                <div
+                  class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>SMS Alerts</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" />
+                <div
+                  class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Duty Reminders</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked />
+                <div
+                  class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-bold mb-4">Data Management</h3>
+          <div class="space-y-4">
+            <button
+              onclick="backupData()"
+              class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded font-semibold transition-colors"
+            >
+              Backup Data
+            </button>
+            <button
+              onclick="exportData()"
+              class="w-full bg-green-600 hover:bg-green-700 py-3 rounded font-semibold transition-colors"
+            >
+              Export Data
+            </button>
+            <input
+              type="file"
+              id="importFile"
+              accept=".json"
+              style="display: none"
+              onchange="importData(event)"
+            />
+            <button
+              onclick="document.getElementById('importFile').click()"
+              class="w-full bg-yellow-600 hover:bg-yellow-700 py-3 rounded font-semibold transition-colors"
+            >
+              Import Data
+            </button>
+            <button
+              onclick="resetSystem()"
+              class="w-full bg-red-600 hover:bg-red-700 py-3 rounded font-semibold transition-colors"
+            >
+              Reset System
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 text-center">
+        <button
+          onclick="saveAllSettings()"
+          class="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-semibold transition-colors"
+        >
+          Save All Settings
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let settings = {
+        pharmacyName: "South East Pharmacy",
+        defaultShiftHours: "8 Hours",
+        timeZone: "UTC+5 (Pakistan)",
+        adminPassword: "Nokia108",
+        emailNotifications: true,
+        smsAlerts: false,
+        dutyReminders: true,
+      };
+
+      function loadSettings() {
+        const saved = localStorage.getItem("pharmacySettings");
+        if (saved) {
+          settings = { ...settings, ...JSON.parse(saved) };
+        }
+
+        // Populate form fields
+        document.querySelector('input[value="South East Pharmacy"]').value =
+          settings.pharmacyName;
+        document
+          .querySelector("select option[selected]")
+          .removeAttribute("selected");
+        document.querySelector(
+          `select option[value="${settings.defaultShiftHours}"]`
+        ).selected = true;
+
+        const timeZoneSelect = document.querySelectorAll("select")[1];
+        timeZoneSelect
+          .querySelector("option[selected]")
+          ?.removeAttribute("selected");
+        timeZoneSelect.querySelector(
+          `option[value="${settings.timeZone}"]`
+        ).selected = true;
+
+        // Set toggle states
+        const toggles = document.querySelectorAll('input[type="checkbox"]');
+        toggles[0].checked = settings.emailNotifications;
+        toggles[1].checked = settings.smsAlerts;
+        toggles[2].checked = settings.dutyReminders;
+      }
+
+      function saveAllSettings() {
+        // Get form values
+        settings.pharmacyName =
+          document.querySelector('input[type="text"]').value;
+        settings.defaultShiftHours = document.querySelector("select").value;
+        settings.timeZone = document.querySelectorAll("select")[1].value;
+
+        const newPassword = document.querySelector(
+          'input[placeholder="Enter new password"]'
+        ).value;
+        const confirmPassword = document.querySelector(
+          'input[placeholder="Confirm new password"]'
+        ).value;
+
+        if (newPassword && newPassword === confirmPassword) {
+          settings.adminPassword = newPassword;
+          alert("Password updated successfully!");
+        } else if (newPassword && newPassword !== confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+        }
+
+        // Get toggle states
+        const toggles = document.querySelectorAll('input[type="checkbox"]');
+        settings.emailNotifications = toggles[0].checked;
+        settings.smsAlerts = toggles[1].checked;
+        settings.dutyReminders = toggles[2].checked;
+
+        // Save to localStorage
+        localStorage.setItem("pharmacySettings", JSON.stringify(settings));
+
+        // Clear password fields
+        document.querySelector(
+          'input[placeholder="Enter new password"]'
+        ).value = "";
+        document.querySelector(
+          'input[placeholder="Confirm new password"]'
+        ).value = "";
+
+        alert("Settings saved successfully!");
+      }
+
+      function backupData() {
+        const allData = {
+          settings: settings,
+          staffData: JSON.parse(localStorage.getItem("staffData") || "[]"),
+          reportsData: JSON.parse(localStorage.getItem("reportsData") || "[]"),
+          dutyRoster: JSON.parse(localStorage.getItem("dutyPeriod") || "{}"),
+          timePeriods: JSON.parse(localStorage.getItem("timePeriods") || "{}"),
+          timestamp: new Date().toISOString(),
+        };
+
+        const blob = new Blob([JSON.stringify(allData, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `pharmacy_backup_${
+          new Date().toISOString().split("T")[0]
+        }.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        alert("Backup created successfully!");
+      }
+
+      function exportData() {
+        const exportData = {
+          pharmacyName: settings.pharmacyName,
+          staff: JSON.parse(localStorage.getItem("staffData") || "[]"),
+          reports: JSON.parse(localStorage.getItem("reportsData") || "[]").map(
+            (r) => ({
+              name: r.name,
+              type: r.type,
+              generated: r.generated,
+            })
+          ),
+          exportDate: new Date().toISOString(),
+        };
+
+        // Create CSV format
+        let csvContent = `Pharmacy Data Export\nExported: ${exportData.exportDate}\n\n`;
+        csvContent += `Pharmacy: ${exportData.pharmacyName}\n\n`;
+        csvContent += `Staff Members:\n`;
+        csvContent += `Name,ID,Position,Department,Status\n`;
+
+        exportData.staff.forEach((staff) => {
+          csvContent += `${staff.name},${staff.id},${staff.position},${staff.department},${staff.status}\n`;
+        });
+
+        csvContent += `\nReports:\n`;
+        csvContent += `Name,Type,Generated\n`;
+        exportData.reports.forEach((report) => {
+          csvContent += `${report.name},${report.type},${report.generated}\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `pharmacy_export_${
+          new Date().toISOString().split("T")[0]
+        }.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        alert("Data exported successfully!");
+      }
+
+      function importData(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const data = JSON.parse(e.target.result);
+
+            if (data.settings) {
+              localStorage.setItem(
+                "pharmacySettings",
+                JSON.stringify(data.settings)
+              );
+            }
+            if (data.staffData) {
+              localStorage.setItem("staffData", JSON.stringify(data.staffData));
+            }
+            if (data.reportsData) {
+              localStorage.setItem(
+                "reportsData",
+                JSON.stringify(data.reportsData)
+              );
+            }
+            if (data.timePeriods) {
+              localStorage.setItem(
+                "timePeriods",
+                JSON.stringify(data.timePeriods)
+              );
+            }
+
+            alert("Data imported successfully! Please refresh the page.");
+            loadSettings();
+          } catch (error) {
+            alert("Error importing data: Invalid file format");
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      function resetSystem() {
+        if (
+          !confirm(
+            "Are you sure you want to reset all system data? This action cannot be undone."
+          )
+        ) {
+          return;
+        }
+
+        if (
+          !confirm(
+            "This will delete ALL data including staff records, reports, and settings. Are you absolutely sure?"
+          )
+        ) {
+          return;
+        }
+
+        // Clear all localStorage
+        const keys = [
+          "pharmacySettings",
+          "staffData",
+          "reportsData",
+          "dutyPeriod",
+          "daysInMonth",
+          "timePeriods",
+        ];
+        keys.forEach((key) => localStorage.removeItem(key));
+
+        // Reset to defaults
+        settings = {
+          pharmacyName: "South East Pharmacy",
+          defaultShiftHours: "8 Hours",
+          timeZone: "UTC+5 (Pakistan)",
+          adminPassword: "Nokia108",
+          emailNotifications: true,
+          smsAlerts: false,
+          dutyReminders: true,
+        };
+
+        loadSettings();
+        alert("System reset successfully!");
+      }
+
+      // Initialize
+      loadSettings();
+
+      // Auto-save on input changes
+      document.addEventListener("change", function (e) {
+        if (e.target.type === "checkbox" || e.target.tagName === "SELECT") {
+          // Auto-save toggles and selects
+          setTimeout(saveAllSettings, 500);
+        }
+      });
+    </script>
+  </body>
+</html>

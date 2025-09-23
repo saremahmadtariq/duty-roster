@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Management Portal - South East Pharmacy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+      .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+      .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white min-h-screen">
+    <div class="container mx-auto px-6 py-12">
+      <!-- User Info & Logout -->
+      <div class="flex justify-between items-center mb-8">
+        <div id="userInfo" class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+            <span id="userInitial" class="text-white font-semibold">?</span>
+          </div>
+          <div>
+            <div id="userName" class="text-white font-medium">Loading...</div>
+            <div id="userEmail" class="text-gray-400 text-sm"></div>
+          </div>
+        </div>
+        <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors">
+          Logout
+        </button>
+      </div>
+      <!-- Header Section -->
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-2xl mb-6">
+          <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+          </svg>
+        </div>
+        <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Management Portal</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">South East Pharmacy - Comprehensive Staff & Operations Management System</p>
+        <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6 rounded-full"></div>
+      </div>
+
+      <!-- Navigation Cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <a href="index.html" class="card-hover group bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl hover:bg-white/10 hover:border-blue-500/50">
+          <div class="text-center">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3 group-hover:text-blue-400 transition-colors">Duty Roster</h3>
+            <p class="text-gray-400 leading-relaxed">Manage staff schedules, assignments, and time periods with real-time updates</p>
+          </div>
+        </a>
+
+        <a href="staff-records.html" class="card-hover group bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl hover:bg-white/10 hover:border-green-500/50">
+          <div class="text-center">
+            <div class="bg-gradient-to-br from-green-500 to-green-600 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v4h2v-4h3l-1-5c-.37-1.83 1.08-3.5 2.92-3.17l1.65.3c1.49.27 2.43 1.76 2.43 3.24V18c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3 group-hover:text-green-400 transition-colors">Staff Records</h3>
+            <p class="text-gray-400 leading-relaxed">Complete employee database with profiles, contact info, and status tracking</p>
+          </div>
+        </a>
+
+        <a href="reports.html" class="card-hover group bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl hover:bg-white/10 hover:border-purple-500/50">
+          <div class="text-center">
+            <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3 group-hover:text-purple-400 transition-colors">Analytics & Reports</h3>
+            <p class="text-gray-400 leading-relaxed">Generate comprehensive duty reports, attendance analytics, and export data</p>
+          </div>
+        </a>
+
+        <a href="settings.html" class="card-hover group bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl hover:bg-white/10 hover:border-orange-500/50">
+          <div class="text-center">
+            <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3 group-hover:text-orange-400 transition-colors">System Settings</h3>
+            <p class="text-gray-400 leading-relaxed">Configure system preferences, backup data, and manage application settings</p>
+          </div>
+        </a>
+
+        <a href="inventory.html" class="card-hover group bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl hover:bg-white/10 hover:border-indigo-500/50">
+          <div class="text-center">
+            <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3 group-hover:text-indigo-400 transition-colors">Inventory Management</h3>
+            <p class="text-gray-400 leading-relaxed">Track stock levels, manage suppliers, and monitor pharmaceutical inventory</p>
+          </div>
+        </a>
+
+        <a href="closing-form.html" class="card-hover group bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl hover:bg-white/10 hover:border-emerald-500/50">
+          <div class="text-center">
+            <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3 group-hover:text-emerald-400 transition-colors">Daily Closing</h3>
+            <p class="text-gray-400 leading-relaxed">End-of-day cash reconciliation, sales summary, and financial reporting</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
+      </div>
+
+      <!-- Footer Section -->
+      <div class="text-center mt-16 pt-8 border-t border-white/10">
+        <div class="flex items-center justify-center space-x-6 mb-6">
+          <div class="flex items-center space-x-2 text-gray-400">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span class="text-sm font-medium">System Status: Online</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyAaYNnSVowKDIzAdqfMXC9sGyj2pGRd2Nc",
+        authDomain: "duty-roster-baa33.firebaseapp.com",
+        databaseURL: "https://duty-roster-baa33-default-rtdb.firebaseio.com",
+        projectId: "duty-roster-baa33",
+        storageBucket: "duty-roster-baa33.firebasestorage.app",
+        messagingSenderId: "439210662019",
+        appId: "1:439210662019:web:6bfb2e6daf14527355a3b6"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          const userName = user.displayName || user.email || 'Anonymous User';
+          const userEmail = user.email || 'No email';
+          const userInitial = userName.charAt(0).toUpperCase();
+          document.getElementById('userName').textContent = userName;
+          document.getElementById('userEmail').textContent = userEmail;
+          document.getElementById('userInitial').textContent = userInitial;
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+
+      function logout() {
+        auth.signOut().then(() => {
+          window.location.href = 'login.html';
+        });
+      }
+    </script>
+  </body>
+</html>s: Online</span>
+          </div>
+          <div class="flex items-center space-x-2 text-gray-400">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <span class="text-sm font-medium">Version 2.1.0</span>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm">© 2024 South East Pharmacy. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>
